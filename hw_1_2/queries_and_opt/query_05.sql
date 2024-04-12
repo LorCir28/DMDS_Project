@@ -1,4 +1,4 @@
--- QUERY 4
+-- QUERY 5
 -- STATEMENTS: outer join, negated nested query
 /*
 for every city that is not a capital, show the phonecode of the corresponding country,

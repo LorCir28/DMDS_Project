@@ -1,4 +1,4 @@
--- QUERY 1
+-- QUERY 8
 /*
 return the cities that have the same name but different countries
 */

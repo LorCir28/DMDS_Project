@@ -1,4 +1,4 @@
--- QUERY 5
+-- QUERY 9
 /*
 for each continent, show the name and the number of cities that are not capital
 which have the latitude greater than the latitude of all the italian cities

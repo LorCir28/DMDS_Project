@@ -1,4 +1,4 @@
--- QUERY 9
+-- QUERY 10
 /*
 for each italian region, show the name and the number of provinces that have the latitude greater
 than all the spanish cities

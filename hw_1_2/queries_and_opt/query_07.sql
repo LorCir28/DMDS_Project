@@ -1,4 +1,4 @@
--- QUERY 8
+-- QUERY 7
 
 -- STATEMENTS: EXCEPT
 /*

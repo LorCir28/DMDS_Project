@@ -1,4 +1,4 @@
--- QUERY 7
+-- QUERY 1
 
 -- STATEMENTS: HAVING
 /*

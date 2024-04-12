@@ -1,4 +1,4 @@
--- QUERY 3
+-- QUERY 2
 -- STATEMENTS: negated nested query, group by
 /*
 for each continent, find number of countries that don't belong to it
