@@ -15,15 +15,6 @@ There are 155.935 entries in total, broken down as follows:
 * Total States/Regions/Municipalities/Provinces : 5,084
 * Total Cities/Towns/Districts : 150,573
 
-## Get Started
-* run ```/hw_1_2/geographic_db/csv/preprocess.py``` (to preprocess the csv files)
-
-In PostgreSQL:
-* run ```/hw_1_2/geographic_db/database_definition.sql``` (to create tables)
-* import tables from csv files via graphical interface
-* run ```/hw_1_2/geographic_db/constraints_and_updates.sql``` (to set constraints on tables)
-* run ```/hw_1_2/queries_and_opt/query_n.sql``` (to run the queries)
-
 ## Entity Relationship model
 The following E-R model reports the structure and all the constraints of the database
 ![Conceptual Schema](hw_1_2/Images/ER_Model.jpeg)
@@ -37,4 +28,11 @@ For each table, the attributes and the constraints are resumed:
 
 N.B. black dotted/bold attributes are primary keys, italic attributes can assume NULL values.
 
+## Get Started
+* run ```/hw_1_2/geographic_db/csv/preprocess.py``` (to preprocess the csv files)
 
+In PostgreSQL:
+* run ```/hw_1_2/geographic_db/database_definition.sql``` (to create tables)
+* import tables from csv files via graphical interface
+* run ```/hw_1_2/geographic_db/constraints_and_updates.sql``` (to set constraints on tables)
+* run ```/hw_1_2/queries_and_opt/query_n.sql``` (to run the queries)
