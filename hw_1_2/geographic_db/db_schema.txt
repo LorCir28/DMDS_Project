@@ -1,0 +1,14 @@
+CITIES(id, name, state_id, country_id, latitude, longitude)
+
+COUNTRIES(id, name, iso3, phonecode, capital, currency_name, continent_id, subcontinent_id, nationality, latitude, longitude)
+
+CONTINENTS(id, name)
+
+STATES(id, name, country_id, type, latitude, longitude)
+
+SUBCONTINENTS(id, name, continent_id)
+
+STEP 1: run preprocess.py
+STEP 2: run database_definition.sql
+STEP 3: import tables from csv files via graphical interface
+STEP 4: run constraints_and_updates.sql
