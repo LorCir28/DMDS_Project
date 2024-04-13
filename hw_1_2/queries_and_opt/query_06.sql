@@ -1,24 +1,16 @@
--- QUERY 6
-
--- STATEMENTS: VIEW
+-- QUERY 5
+-- STATEMENTS: outer join, negated nested query
 /*
-Show the name and the longitude of all the cities that lays around the Greenwich meridian within
-a range of ±1 (ie such that have a longitude similar to the London one),ordering them by their 
-proximity.
-NB. London's longitude is not exactly 0, but -0.12574000
+for every city that is not a capital, show the phonecode of the corresponding country,
+the name of the corresponding continent (if present) and, if present, the subcontinent.
 */
 
+select c.name as city_name, co.phonecode as city_phonecode, r.name as continent_name, s.name as subcontinent_name
+from cities c 
+join countries co on co.id = c.country_id
+left join continents r on r.id = co.continent_id
+left join subcontinents s on s.id = co.subcontinent_id
+where c.name not in (select distinct capital
+					 from countries
+					 where capital is not null)
 
--- create view london_longitude(longitude) as
--- 	select c.longitude 
---     from cities c
---     join states s on s.id = c.state_id
---     join countries co on co.id = s.country_id 
---     where c.name = 'London' 
--- 	and co.name = 'United Kingdom';
-
-
-select name, c.longitude, abs(c.longitude - london_longitude.longitude) as distance
-from cities c, london_longitude
-where abs(c.longitude - london_longitude.longitude) <= 1
-order by distance
