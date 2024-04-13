@@ -1,7 +1,7 @@
 -- QUERY 4
 /*
-return the name and the currency of the southern cities of each continent (with the name) that are
-not autonomous
+return the name and the currency of the southern cities of each continent (with the name) that 
+belong to states thar are not autonomous
 */
 
 -- NON OPTIMIZED

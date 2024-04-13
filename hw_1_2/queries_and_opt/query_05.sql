@@ -1,4 +1,4 @@
--- QUERY 6
+-- QUERY 5
 
 -- STATEMENTS: VIEW
 /*
@@ -9,13 +9,13 @@ NB. London's longitude is not exactly 0, but -0.12574000
 */
 
 
--- create view london_longitude(longitude) as
--- 	select c.longitude 
---     from cities c
---     join states s on s.id = c.state_id
---     join countries co on co.id = s.country_id 
---     where c.name = 'London' 
--- 	and co.name = 'United Kingdom';
+create view london_longitude(longitude) as
+	select c.longitude 
+    from cities c
+    join states s on s.id = c.state_id
+    join countries co on co.id = s.country_id 
+    where c.name = 'London' 
+	and co.name = 'United Kingdom';
 
 
 select name, c.longitude, abs(c.longitude - london_longitude.longitude) as distance

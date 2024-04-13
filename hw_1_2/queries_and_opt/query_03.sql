@@ -3,7 +3,7 @@
 select the name and the latitude of the northernmost city in the database
 */
 
--- NON OPTIMIZED VERSION (35 sec)
+-- NON OPTIMIZED VERSION (Stefano 13 sec; Lorenzo 35 sec)
 select name, latitude
 from cities
 where latitude >= all(

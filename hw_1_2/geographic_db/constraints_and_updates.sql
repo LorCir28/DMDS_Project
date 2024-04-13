@@ -1,6 +1,6 @@
 -- Primary keys
 ALTER TABLE cities
-	ADD CONSTRAINT id PRIMARY KEY(id);
+	ADD CONSTRAINT cities_pk PRIMARY KEY(id);
 	
 ALTER TABLE countries
 	ADD CONSTRAINT countries_pk PRIMARY KEY(id);
