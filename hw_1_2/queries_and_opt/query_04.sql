@@ -1,10 +1,11 @@
 -- QUERY 4
+
 /*
 return the name and the currency of the southern cities of each continent (with the name) that 
 belong to states thar are not autonomous
 */
 
--- NON OPTIMIZED
+-- NON OPTIMIZED 
 -- SUBQUERY: this returns the name and currency of the southern cities of each continent
 select distinct c.name as city_name, co.currency_name as currency, sr.name
 from cities c 
