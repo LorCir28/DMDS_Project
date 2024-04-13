@@ -2,7 +2,7 @@
 
 -- STATEMENTS: VIEW
 /*
-Show the name and the longitude of all the cities  that lays around the Greenwich meridian within
+Show the name and the longitude of all the cities that lays around the Greenwich meridian within
 a range of ±1 (ie such that have a longitude similar to the London one),ordering them by their 
 proximity.
 NB. London's longitude is not exactly 0, but -0.12574000

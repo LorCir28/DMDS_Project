@@ -1,6 +1,6 @@
 -- QUERY 8
 /*
-return the cities that have the same name but different countries
+return the cities that have the same name but different countries, with the subcontinent
 */
 
 -- NON OPTIMIZED
