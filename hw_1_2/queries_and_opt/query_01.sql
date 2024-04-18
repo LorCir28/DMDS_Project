@@ -11,4 +11,4 @@ from countries c
 join states s on c.id = s.country_id
 group by c.name, c.iso3, c.currency_name
 having count(s.name)<=20
-order by count(s.name)
+order by count(s.name) desc

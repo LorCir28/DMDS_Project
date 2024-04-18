@@ -2,15 +2,13 @@
 /*
 select the name and the latitude of the northernmost city in the database
 */
-
--- NON OPTIMIZED VERSION (Stefano 13 sec; Lorenzo 35 sec)
+-- NON OPTIMIZED VERSION (Stefano 14 sec; Lorenzo 35 sec)
 select name, latitude
 from cities
 where latitude >= all(
 	select latitude
  	from cities
 )
-
 -- OPTIMIZED VERSION (no nested query and consequently no comparison with long table)
 select name, latitude
 from cities

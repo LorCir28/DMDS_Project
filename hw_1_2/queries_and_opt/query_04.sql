@@ -1,5 +1,4 @@
 -- QUERY 4
-
 /*
 return the name and the currency of the southern cities of each continent (with the name) that 
 belong to states thar are not autonomous
@@ -12,9 +11,7 @@ from cities c
 join countries co on c.country_id = co.id 
 join subcontinents sr on co.subcontinent_id = sr.id
 where sr.name like 'South%'
-
 intersect
-
 -- SUBQUERY: this returns the name and currency of the cities that are not autonomous
 select distinct c.name as city_name, co.currency_name as currency, sr.name
 from cities c 
