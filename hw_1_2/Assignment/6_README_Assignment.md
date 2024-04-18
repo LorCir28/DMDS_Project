@@ -17,7 +17,7 @@ There are 155.935 entries in total, broken down as follows:
 
 ## Entity Relationship model
 The following E-R model reports the structure and all the constraints of the database
-![Conceptual Schema](ER_Model.jpeg)
+![Conceptual Schema](7_ER_Model.jpeg)
 
 For each table, the attributes and the constraints are resumed:
 * CONTINENTS(__id__, name)
@@ -29,10 +29,11 @@ For each table, the attributes and the constraints are resumed:
 N.B. black dotted/bold attributes are primary keys, italic attributes can assume NULL values.
 
 ## Get Started
-* run ```/hw_1_2/geographic_db/csv/preprocess.py``` (to preprocess the csv files)
+* run ```/1_preprocess.py``` (to preprocess the csv files)
 
 In PostgreSQL:
-* run ```/hw_1_2/geographic_db/database_definition.sql``` (to create tables)
+* run ```/2_database_definition.sql``` (to create tables)
 * import tables from csv files via graphical interface
-* run ```/hw_1_2/geographic_db/constraints_and_updates.sql``` (to set constraints on tables)
-* run ```/hw_1_2/queries_and_opt/query_n.sql``` (to run the queries)
+* run ```/3_constraints_and_updates.sql``` (to set constraints on tables)
+* run ```/4_non_optimized_queries.sql``` (to run the non optimized queries)
+* run ```/5_optimized_queries.sql``` (to run the optimized queries and their unefficient version)
