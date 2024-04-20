@@ -29,7 +29,7 @@ For each table, the attributes and the constraints are resumed:
 N.B. black dotted/bold attributes are primary keys, italic attributes can assume NULL values.
 
 ## Get Started
-* run ```/1_preprocess.py``` (to preprocess the csv files)
+* run ```/1_preprocess.py``` (to modify the original csv files)
 
 In PostgreSQL:
 * run ```/2_database_definition.sql``` (to create tables)
