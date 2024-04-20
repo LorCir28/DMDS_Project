@@ -29,11 +29,9 @@ For each table, the attributes and the constraints are resumed:
 N.B. black dotted/bold attributes are primary keys, italic attributes can assume NULL values.
 
 ## Get Started
-* run ```/1_preprocess.py``` (to modify the original csv files)
+* run ```/2_preprocess.py``` (to modify the original csv files)
 
 In PostgreSQL:
-* run ```/2_database_definition.sql``` (to create tables)
-* import tables from csv files via graphical interface
-* run ```/3_constraints_and_updates.sql``` (to set constraints on tables)
+* run ```/3_database_definition.sql``` (to create tables and set constraints on tables)
 * run ```/4_non_optimized_queries.sql``` (to run the non optimized queries)
 * run ```/5_optimized_queries.sql``` (to run the optimized queries and their unefficient version)

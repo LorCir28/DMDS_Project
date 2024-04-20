@@ -2,7 +2,7 @@
 /*
 select the name and the latitude of the northernmost city in the database
 */
--- NON OPTIMIZED VERSION (Stefano 14 sec; Lorenzo 35 sec)
+-- NON OPTIMIZED VERSION
 select name, latitude
 from cities
 where latitude >= all(
@@ -10,6 +10,7 @@ where latitude >= all(
  	from cities
 )
 -- OPTIMIZED VERSION (no nested query and consequently no comparison with long table)
+-- + 99.4% in terms of execution time
 select name, latitude
 from cities
 order by latitude desc
@@ -37,6 +38,7 @@ join subcontinents sr on co.subcontinent_id = sr.id
 where s.type not like 'autonomous%'
 
 -- OPTIMIZED (not intersection)
+-- + 84.6% in terms of execution time
 select distinct c.name as city_name, co.currency_name as currency, sr.name
 from cities c 
 join countries co on c.country_id = co.id 
@@ -60,7 +62,9 @@ join subcontinents sb1 on sb1.id = co1.subcontinent_id
 join subcontinents sb2 on sb2.id = co2.subcontinent_id
 where c1.id <> c2.id and co1.id <> co2.id
 order by c1.name
--- OPTIMIZED (nested query in where clause speeds up)
+-- OPTIMIZED (nested query in where clause speeds up. More in detail, we are not comparing the
+-- id of each city in the first cities table with the id of each city in the second cities table)
+-- + 75.0% in terms of execution time
 select distinct c1.name as city1, co1.name as country1, co2.name as country2,
 	sb1.name as subcont1, sb2.name as subcont2
 from cities c1 join cities c2 on c1.name = c2.name 
@@ -82,7 +86,7 @@ order by c1.name
 for each continent, show the name and the number of cities that are not capital
 which have the latitude greater than the latitude of all the italian cities
 */
--- NON OPTIMIZED (50 sec)
+-- NON OPTIMIZED
 select con.name as continent_name, count(nested.name) as number_cities
 from continents con 
 join (
@@ -97,9 +101,10 @@ join (
 		select (cit.latitude)
 		from cities cit join countries cou on cit.country_id = cou.id
 		where cou.name = 'Italy')
-) nested on nested.continent_id = con.id
+) Nested on Nested.continent_id = con.id
 group by con.name									  
 -- OPTIMIZED (no nested query in the from clause)
+-- + 99.6% in terms of execution time
 select con.name as continent_name, count(c.name) as number_cities
 from cities c 
 join countries co on c.country_id = co.id 
@@ -122,7 +127,7 @@ group by con.name
 for each italian region, show the name and the number of provinces that have the latitude greater
 than all the spanish cities
 */
--- NON OPTIMIZED (1 min)
+-- NON OPTIMIZED
 select s.name as region_name, count(*) as number_provinces
 from states s 
 join countries co on s.country_id = co.id 
@@ -144,7 +149,9 @@ and c.latitude > all (
 )
 group by s.name
 
--- OPTIMIZED (Same query but using the following indexes)
+-- OPTIMIZED (Same query but using the following indexes. We create the indexes on the most
+-- involved columns in the where clause)
+-- + 97.2% in terms of execution time (considering also the time to create the indexes)
 -- UNCOMMENT THE FOLLOWING TO CREATE THE INDEXES
 -- create index idx_states_country_id ON states(country_id);
 -- create index idx_cities_state_id ON cities(state_id);
@@ -152,6 +159,7 @@ group by s.name
 -- create index idx_states_type ON states(type);
 -- create index idx_countries_name ON countries(name);
 -- create index idx_cities_latitude ON cities(latitude);
+
 select s.name as region_name, count(*) as number_provinces
 from states s 
 join countries co on s.country_id = co.id 
