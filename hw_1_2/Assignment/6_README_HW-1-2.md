@@ -1,4 +1,4 @@
-# DMDS exam project
+# Homework 1 & 2 for DMDS exam project
 Professors: Prof. Rosati, Prof. Lembo.
 
 Project members: Felli Stefano (1896877), Cirillo Lorenzo (1895955).
