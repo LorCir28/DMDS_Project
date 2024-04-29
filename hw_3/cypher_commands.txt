@@ -1,0 +1,89 @@
+CYPER COMMANDS
+
+# CREATE A NODE
+CREATE (:Actor) # create a node with label Actor
+
+CREATE (:Person:Actor) # create a node with label Person and Actor
+
+CREATE (Node1:Actor) # Node1 is the local variable name assigned to the node for Cypher
+
+CREATE (:Actor {name:'Tom Hanks'}) # create a node with label Actor and property name
+
+CREATE (Node1:Actor {name:'Tom Hanks'}) # Node1 is the local variable name assigned to the node for Cypher
+
+
+
+# CREATE A RELATIONSHIP
+MATCH (Node1:Actor {name:'Tom Hanks'}), (Node2:Actor {name:'Tom Cruise'})
+CREATE (Node1)-[:FRIEND_OF {since:1984}]->(Node2);
+
+# less efficient
+MATCH (Node1:Actor), (Node2:Actor)
+WHERE node1.name = 'Tom Hanks' AND node2.name = 'Tom Cruise'
+CREATE (Node1)-[:FRIEND_OF]->(Node2);
+
+
+
+# SET
+# to set a property of a node
+MATCH (Node1:Actor {name:'Tom Hanks'})
+SET Node1.age = 70
+
+# to set a property of an edge
+MATCH (Node1:Actor {name:'Tom Hanks'})-[r:FRIEND_OF]->(Node2:Actor {name:'Tom Cruise'})
+SET r.since = 1984
+
+# to set the label of a node
+MATCH (Node1:Actor {name:'Tom Hanks'})
+SET node1:Person
+
+# to set the label of an edge
+MATCH (Node1:Actor {name:'Tom Hanks'})-[r:FRIEND_OF]->(Node2:Actor {name:'Tom Cruise'})
+SET r:COLLEAGUE
+
+
+
+# DELETE NODES AND EDGES
+MATCH (Node1:Actor {name:'Tom Hanks'})
+DETACH DELETE Node1 # this deletes the node and all its links
+
+MATCH ()-[r:FRIEND_OF]-() 
+DELETE r # this deletes all the relationships labelled FRIEND_OF
+
+
+
+# DELETE PROPERTIES
+MATCH (Node1:Actor {name:'Tom Hanks'})
+REMOVE Node1.name # this deletes the property name of the node
+
+
+
+# TO VISUALIZE THE GRAPH
+call db.schema.visualization( )
+
+MATCH (nodes) RETURN nodes;
+
+MATCH (n)-[r]-(m)
+RETURN n, r, m
+
+
+
+# RETURN QUERIES
+MATCH (Node1:Actor {name:'Tom Hanks'})-[:FRIEND_OF]->(Node2:Actor {name:'Tom Cruise'})
+RETURN Node1.age
+
+# this considers all the relationships between Node1 and Node2
+MATCH (Node1:Actor {name:'Tom Hanks'})-[]->(Node2:Actor {name:'Tom Cruise'})
+RETURN Node1.age
+
+# this considers all the nodes involved in the relationship FRIEND_OF
+MATCH (Node1)-[r:FRIEND_OF]->(Node2)
+RETURN Node1.age
+
+
+
+
+
+
+
+
