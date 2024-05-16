@@ -156,27 +156,3 @@ DROP INDEX myindex # this deletes the index with name myindex
 CREATE CONSTRAINT myUniqConstr FOR (p:Person) REQUIRE p.name IS UNIQUE
 CREATE CONSTRAINT myUniqConstr FOR (p:Person) REQUIRE p.name IS NOT NULL
 CREATE CONSTRAINT myUniqConstr FOR (p:Person) REQUIRE p.name IS NODE KEY
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
