@@ -29,7 +29,7 @@ CREATE (cou:Country {
     name: row3.name, 
     iso3: row3.iso3, 
     phone_code: row3.phone_code, 
-    capital: COALESCE(row3.capital, ''),
+    capital: row3.capital,
     currency_name: row3.currency_name, 
     nationality: row3.nationality, 
     latitude: row3.latitude, 
@@ -44,9 +44,9 @@ MATCH (cou:Country {id: row4.country_id})
 CREATE (sta:State {
     id: row4.id,
     name: row4.name,
-    type: COALESCE(row4.type, ''),
-    latitude: COALESCE(row4.latitude, ''),
-    longitude: COALESCE(row4.longitude, '')
+    type: row4.type,
+    latitude: row4.latitude,
+    longitude: row4.longitude
 })
 CREATE (sta)-[:BELONGS_TO_COUNTRY]->(cou);
 
@@ -61,8 +61,8 @@ MATCH (sta:State {id: row5.state_id})
 CREATE (cit:City {
     id: row5.id,
     name: row5.name,
-    latitude: COALESCE(row5.latitude, ''),
-    longitude: COALESCE(row5.longitude, '')
+    latitude: row5.latitude,
+    longitude: row5.longitude
 })
 CREATE (cit)-[:BELONGS_TO_COUNTRY]->(cou)
 CREATE (cit)-[:BELONGS_TO_STATE]->(sta);
