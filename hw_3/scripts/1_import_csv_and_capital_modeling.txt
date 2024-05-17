@@ -8,7 +8,7 @@ HOW TO IMPORT THE CSV:
 this is so expand the neo4j memory to allow the import of cities.csv
 
 
-3) run the following script (JUST ONCE):
+3) run the following script (JUST ONE TIME):
 
 // Import continents from continents.csv
 LOAD CSV WITH HEADERS FROM 'file:///continents.csv' AS row1
@@ -70,25 +70,3 @@ CREATE (cit)-[:BELONGS_TO_STATE]->(sta);
 // drop the indexes
 DROP INDEX country_id_idx;
 DROP INDEX state_id_idx;
-
-
-
-
-
-4) Create the edge HAS_CAPITAL from the country and the corresponding city capital
-
-MATCH (city:City)-[:BELONGS_TO_COUNTRY]->(country:Country)
-WHERE city.name = country.capital
-CREATE (country)-[:HAS_CAPITAL]->(city)
-
-
-5) Delete the property 'capital' from Country nodes
-
-MATCH (country:Country)
-REMOVE country.capital
-
-
-
-
-
-
