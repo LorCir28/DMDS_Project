@@ -1,16 +1,5 @@
-HOW TO IMPORT THE CSV:
+script 1) import csv files with country_id for cities
 
-0) create your_dbms on neo4j
-
-1) add all the csv files in .../dbmss/your_dbms/import
-
-2) add a the end of the file .../dbmss/your_dbms/conf/neo4j.conf the following line: 'dbms.memory.transaction.total.max=0'
-this is so expand the neo4j memory to allow the import of cities.csv
-
-
-3) run the following script (JUST ONCE):
-
-// Import continents from continents.csv
 LOAD CSV WITH HEADERS FROM 'file:///continents.csv' AS row1
 CREATE (cont:Continent {id:row1.id, name:row1.name});
 
@@ -61,6 +50,7 @@ MATCH (sta:State {id: row5.state_id})
 CREATE (cit:City {
     id: row5.id,
     name: row5.name,
+    country_id: row5.country_id,
     latitude: row5.latitude,
     longitude: row5.longitude
 })
@@ -71,18 +61,37 @@ CREATE (cit)-[:BELONGS_TO_STATE]->(sta);
 DROP INDEX country_id_idx;
 DROP INDEX state_id_idx;
 
+Script 2) create cities for capitals not in City, then create edges HAS_CAPITAL and BELONGS_TO_COUNTRY between the new cities and their country
+MATCH (n)
+WITH max(toInteger(n.id)) AS maxId
+MATCH (c:Country)
+WHERE NOT EXISTS {
+    MATCH (ci:City)
+    WHERE c.capital = ci.name
+} AND c.capital IS NOT NULL
+WITH c, maxId+1 as maxId
+CREATE (newCity:City {id: maxId, name:c.capital, latitude: c.latitude, longitude: c.longitude, country_id: c.country_id})
+CREATE (c)-[:HAS_CAPITAL]->(newCity)
+CREATE (newCity)-[:BELONGS_TO_COUNTRY]->(c);
 
 
-
-
-4) Create the edge HAS_CAPITAL from the country and the corresponding city capital
-
-MATCH (city:City)-[:BELONGS_TO_COUNTRY]->(country:Country)
-WHERE city.name = country.capital
-CREATE (country)-[:HAS_CAPITAL]->(city)
-
-
-5) Delete the property 'capital' from Country nodes
-
+Script 3) create HAS_CAPITAL edge for the cities already present in the database, excluding repetitions of multiple cities with same name and same country: For each country, the edge is created only for the first appearance of a city that has name = capital
 MATCH (country:Country)
-REMOVE country.capital
+WHERE NOT EXISTS {
+    MATCH (country)-[:HAS_CAPITAL]->(:City)
+}
+WITH country
+MATCH (city:City)
+WHERE city.country_id = country.id AND city.name = country.capital
+WITH country, city
+ORDER BY city.id
+WITH country, collect(city)[0] AS firstCity
+CREATE (country)-[:HAS_CAPITAL]->(firstCity)
+RETURN country.name AS Country, firstCity.name AS City;
+
+
+Script 4) remove useless properties: country_id and capital
+MATCH (country:Country)
+REMOVE country.capital;
+MATCH (city:City)
+REMOVE city.country_id;
