@@ -1,0 +1,131 @@
+// QUERY 1
+
+// for each small country (i.e. a country with less than 20 states), find the name, ISO, currency and the number of states
+MATCH (state:State)-[:BELONGS_TO_COUNTRY]->(country:Country)
+WITH country, COUNT(state) as numberOfStateS
+WHERE numberOfStateS<=20
+RETURN country.name, country.iso3, country.currency_name, numberOfStateS
+ORDER BY numberOfStateS des
+
+---------------------------------------------------------------------------------------------------------------
+
+// QUERY 2
+
+// for each continent, find number of countries that don't belong to it
+MATCH (cont:Continent), (country:Country)
+WHERE NOT EXISTS ((country)-[:BELONGS_TO_CONTINENT]->(cont)) AND EXISTS ((country)-[]->())
+RETURN cont.name, COUNT(country)
+
+PROBLEMS: this is not exactly equivalent to sql because of the countries import problem
+
+---------------------------------------------------------------------------------------------------------------
+
+// QUERY 3
+
+// select the name and the latitude of the northernmost city in the database 
+MATCH (city:City)
+RETURN city.name, toFloat(city.latitude)
+ORDER BY toFloat(city.latitude) desc
+LIMIT 1
+
+PROBLEMS: this is different from sql: the result is not 'Dikson' but 'Longyearbyen' which is a new added city (from capital) that has the maximum latitude
+
+---------------------------------------------------------------------------------------------------------------
+
+// QUERY 4
+
+// return the name and the currency of the southern cities of each continent (with the name) that belong to states thar are not autonomous
+MATCH (state:State)<-[:BELONGS_TO_STATE]-(city:City)-[:BELONGS_TO_COUNTRY]->(country:Country)-[:BELONGS_TO_SUBCONTINENT]->(subcont:Subcontinent)
+WHERE subcont.name =~ 'South.*' AND NOT state.type =~ 'autonomous.*'
+RETURN DISTINCT city.name, country.currency_name, subcont.name
+
+---------------------------------------------------------------------------------------------------------------
+
+// QUERY 5
+
+// Show the name and the longitude of all the cities that lays around the Greenwich meridian within a range of ±1 (ie such that have a longitude similar to the London one), ordering them by their proximity.
+// NB. London's longitude is not exactly 0, but -0.12574000
+MATCH (city:City), (london:City {name:'London'})-[:BELONGS_TO_COUNTRY]->(country:Country {name:'United Kingdom'})
+WITH city, abs(toFloat(city.longitude)-toFloat(london.longitude)) AS distance
+WHERE distance <= 1
+RETURN city.name, city.longitude, distance
+ORDER BY distance
+
+---------------------------------------------------------------------------------------------------------------
+
+// QUERY 6
+
+// for every city that is not a capital, show the phonecode of the corresponding country, the name of the corresponding continent (if present) and, if present, the subcontinent.
+MATCH (city:City)-[:BELONGS_TO_COUNTRY]->(country:Country)-[:BELONGS_TO_CONTINENT]->(cont:Continent), (country)-[:BELONGS_TO_SUBCONTINENT]->(subcont:Subcontinent)
+WHERE NOT EXISTS ((city)<-[:HAS_CAPITAL]-(:Country))
+RETURN city.name, country.phone_code, cont.name, subcont.name
+ORDER BY city.name
+
+PROBLEMS: this returns more queries than sql, I cannot understand why
+
+---------------------------------------------------------------------------------------------------------------
+
+// QUERY 7
+
+// for each european country that has at least one province, return the name of the country and the number of corresponding provinces
+MATCH (state:State {type:'province'})-[:BELONGS_TO_COUNTRY]->(country:Country)-[:BELONGS_TO_CONTINENT]->(cont:Continent {name:'Europe'})
+RETURN country.name, COUNT(state)
+
+---------------------------------------------------------------------------------------------------------------
+
+// QUERY 8
+
+// return the cities that have the same name but different countries, with the subcontinent
+MATCH (city1:City)-[:BELONGS_TO_COUNTRY]->(country1:Country)-[:BELONGS_TO_SUBCONTINENT]->(subcont1:Subcontinent), (city2:City)-[:BELONGS_TO_COUNTRY]->(country2:Country)-[:BELONGS_TO_SUBCONTINENT]->(subcont2:Subcontinent)
+WHERE city1.name = city2.name AND country1 <> country2
+RETURN DISTINCT city1.name, country1.name, country2.name, subcont1.name, subcont2.name
+ORDER BY city1.name
+
+// if we want to remove the "duplicates", just put '<' instead of '<>' when comparing the countries names
+// MATCH (city1:City)-[:BELONGS_TO_COUNTRY]->(country1:Country)-[:BELONGS_TO_SUBCONTINENT]->(subcont1:Subcontinent), (city2:City)-[:BELONGS_TO_COUNTRY]->(country2:Country)-[:BELONGS_TO_SUBCONTINENT]->(subcont2:Subcontinent)
+// WHERE city1.name = city2.name AND country1.name < country2.name
+// RETURN DISTINCT city1.name, country1.name, country2.name, subcont1.name, subcont2.name
+// ORDER BY city1.name
+
+---------------------------------------------------------------------------------------------------------------
+
+// QUERY 9
+
+// for each continent, show the name and the number of cities that are not capital which have the latitude greater than the latitude of all the italian cities
+
+// Find the maximum latitude of all Italian cities
+MATCH (city:City)-[:BELONGS_TO_COUNTRY]->(country:Country {name: 'Italy'})
+WITH MAX(toFloat(city.latitude)) AS maxItalianLatitude
+
+MATCH (city:City)-[:BELONGS_TO_COUNTRY]->(country:Country)-[:BELONGS_TO_CONTINENT]->(cont:Continent)
+WHERE NOT EXISTS ((city)<-[:HAS_CAPITAL]-(:Country))
+  AND toFloat(city.latitude) > maxItalianLatitude
+RETURN cont, COUNT(city)
+
+NB: this returns more cities wrt sql beacuse we created new cities from the capitals
+
+
+
+---------------------------------------------------------------------------------------------------------------
+
+// QUERY 10
+
+// for each italian region, show the name and the number of provinces that have the latitude greater
+// than all the spanish cities
+
+// Find the maximum latitude of all Spanish cities
+MATCH (city:City)-[:BELONGS_TO_COUNTRY]->(country:Country {name: 'Spain'})
+WITH MAX(toFloat(city.latitude)) AS maxSpanishLatitude
+
+MATCH (province:City), (state:State), (province)-[:BELONGS_TO_STATE]->(region:State)-[:BELONGS_TO_COUNTRY]->(country:Country {name: 'Italy'})
+WHERE (region.type = 'region' OR region.type = 'autonomous region')
+  AND (state.type = 'province' OR state.type = 'decentralized regional entity')
+  AND toFloat(province.latitude) > maxSpanishLatitude 
+  AND province.name = state.name
+RETURN region.name, numberOfProvinces
+
+
+
+
+
+

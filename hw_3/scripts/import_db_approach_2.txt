@@ -1,5 +1,5 @@
-script 1) import csv files with country_id for cities
-
+//script 1) import csv files with country_id for cities
+// Import continents from continents.csv
 LOAD CSV WITH HEADERS FROM 'file:///continents.csv' AS row1
 CREATE (cont:Continent {id:row1.id, name:row1.name});
 
@@ -61,7 +61,7 @@ CREATE (cit)-[:BELONGS_TO_STATE]->(sta);
 DROP INDEX country_id_idx;
 DROP INDEX state_id_idx;
 
-Script 2) create cities for capitals not in City, then create edges HAS_CAPITAL and BELONGS_TO_COUNTRY between the new cities and their country
+// Script 2) create cities for capitals not in City, then create edges HAS_CAPITAL and BELONGS_TO_COUNTRY between the new cities and their country
 MATCH (n)
 WITH max(toInteger(n.id)) AS maxId
 MATCH (c:Country)
@@ -75,7 +75,7 @@ CREATE (c)-[:HAS_CAPITAL]->(newCity)
 CREATE (newCity)-[:BELONGS_TO_COUNTRY]->(c);
 
 
-Script 3) create HAS_CAPITAL edge for the cities already present in the database, excluding repetitions of multiple cities with same name and same country: For each country, the edge is created only for the first appearance of a city that has name = capital
+// Script 3) create HAS_CAPITAL edge for the cities already present in the database, excluding repetitions of multiple cities with same name and same country: For each country, the edge is created only for the first appearance of a city // that has name = capital
 MATCH (country:Country)
 WHERE NOT EXISTS {
     MATCH (country)-[:HAS_CAPITAL]->(:City)
@@ -90,7 +90,7 @@ CREATE (country)-[:HAS_CAPITAL]->(firstCity)
 RETURN country.name AS Country, firstCity.name AS City;
 
 
-Script 4) remove useless properties: country_id and capital
+// Script 4) remove useless properties: country_id and capital
 MATCH (country:Country)
 REMOVE country.capital;
 MATCH (city:City)

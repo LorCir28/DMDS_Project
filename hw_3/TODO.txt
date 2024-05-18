@@ -1,5 +1,7 @@
 - import database on neo4j (create nodes, edges, ...)
+	- import all countries (only 247/250 have been imported, except 'antarctica', 'bouvet islands' and 'heard island and mcdonald islands', whcih have at least one of continent_id and 	subcontinent_id set to null and so they haven't been imported from the csv).
 
 - write the query of hw1: if a query is not possible, reformulate it in an easier version by explaining the difficulties in reformulating the original query
+	- check query 6
 
 - explain the differences between the  sql dbms and nosql dbms
