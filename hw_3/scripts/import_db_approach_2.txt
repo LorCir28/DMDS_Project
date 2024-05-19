@@ -1,7 +1,9 @@
-//script 1) import csv files with country_id for cities
+// script 1) import csv files with country_id for cities
+
 // Import continents from continents.csv
 LOAD CSV WITH HEADERS FROM 'file:///continents.csv' AS row1
 CREATE (cont:Continent {id:row1.id, name:row1.name});
+
 
 // Import subcontinents from subcontinents.csv and connect them to continents
 LOAD CSV WITH HEADERS FROM 'file:///subcontinents.csv' AS row2
@@ -9,10 +11,9 @@ MATCH (cont:Continent {id: row2.continent_id})
 CREATE (sub:Subcontinent {id: row2.id, name: row2.name})
 CREATE (sub)-[:BELONGS_TO_CONTINENT]->(cont);
 
+
 // import countries from countries.csv and connect them to continents and subcontinents
 LOAD CSV WITH HEADERS FROM 'file:///countries.csv' AS row3
-MATCH (cont:Continent {id: row3.continent_id})
-MATCH (sub:Subcontinent {id: row3.subcontinent_id})
 CREATE (cou:Country {
     id: row3.id, 
     name: row3.name, 
@@ -22,10 +23,20 @@ CREATE (cou:Country {
     currency_name: row3.currency_name, 
     nationality: row3.nationality, 
     latitude: row3.latitude, 
-    longitude: row3.longitude
-})
-CREATE (cou)-[:BELONGS_TO_CONTINENT]->(cont)
-CREATE (cou)-[:BELONGS_TO_SUBCONTINENT]->(sub);
+    longitude: row3.longitude,
+    continent_id: row3.continent_id, 
+    subcontinent_id: row3.subcontinent_id
+});
+
+MATCH (country:Country), (cont:Continent {id: country.continent_id})
+CREATE (country)-[:BELONGS_TO_CONTINENT]->(cont);
+
+MATCH (country:Country), (sub:Subcontinent {id: country.subcontinent_id})
+CREATE (country)-[:BELONGS_TO_SUBCONTINENT]->(sub);
+
+MATCH (country:Country)
+REMOVE country.continent_id, country.subcontinent_id;
+
 
 // import states from states.csv and connect them to countries
 LOAD CSV WITH HEADERS FROM 'file:///states.csv' AS row4
@@ -42,6 +53,7 @@ CREATE (sta)-[:BELONGS_TO_COUNTRY]->(cou);
 // create indexes to speed up the import of cities.csv
 CREATE INDEX country_id_idx IF NOT EXISTS FOR (country:Country) ON (country.id);
 CREATE INDEX state_id_idx IF NOT EXISTS FOR (state:State) ON (state.id);
+
 
 // import cities from cities.csv and connect them to countries and states
 LOAD CSV WITH HEADERS FROM 'file:///cities.csv' AS row5

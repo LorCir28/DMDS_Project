@@ -2,10 +2,10 @@
 
 // for each small country (i.e. a country with less than 20 states), find the name, ISO, currency and the number of states
 MATCH (state:State)-[:BELONGS_TO_COUNTRY]->(country:Country)
-WITH country, COUNT(state) as numberOfStateS
-WHERE numberOfStateS<=20
-RETURN country.name, country.iso3, country.currency_name, numberOfStateS
-ORDER BY numberOfStateS des
+WITH country, COUNT(state) as numberOfStates
+WHERE numberOfStates<=20
+RETURN country.name, country.iso3, country.currency_name, numberOfStates
+ORDER BY numberOfStates desc
 
 ---------------------------------------------------------------------------------------------------------------
 
@@ -15,8 +15,6 @@ ORDER BY numberOfStateS des
 MATCH (cont:Continent), (country:Country)
 WHERE NOT EXISTS ((country)-[:BELONGS_TO_CONTINENT]->(cont)) AND EXISTS ((country)-[]->())
 RETURN cont.name, COUNT(country)
-
-PROBLEMS: this is not exactly equivalent to sql because of the countries import problem
 
 ---------------------------------------------------------------------------------------------------------------
 
@@ -102,18 +100,10 @@ WHERE NOT EXISTS ((city)<-[:HAS_CAPITAL]-(:Country))
   AND toFloat(city.latitude) > maxItalianLatitude
 RETURN cont, COUNT(city)
 
-NB: this returns more cities wrt sql beacuse we created new cities from the capitals
-
-
-
 ---------------------------------------------------------------------------------------------------------------
 
 // QUERY 10
 
-// for each italian region, show the name and the number of provinces that have the latitude greater
-// than all the spanish cities
-
-// Find the maximum latitude of all Spanish cities
 MATCH (city:City)-[:BELONGS_TO_COUNTRY]->(country:Country {name: 'Spain'})
 WITH MAX(toFloat(city.latitude)) AS maxSpanishLatitude
 
@@ -122,7 +112,7 @@ WHERE (region.type = 'region' OR region.type = 'autonomous region')
   AND (state.type = 'province' OR state.type = 'decentralized regional entity')
   AND toFloat(province.latitude) > maxSpanishLatitude 
   AND province.name = state.name
-RETURN region.name, numberOfProvinces
+RETURN region.name, COUNT(province)
 
 
 
