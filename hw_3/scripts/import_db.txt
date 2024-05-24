@@ -81,10 +81,14 @@ WHERE NOT EXISTS {
     MATCH (ci:City)
     WHERE c.capital = ci.name
 } AND c.capital IS NOT NULL
-WITH c, maxId+1 as maxId
-CREATE (newCity:City {id: maxId, name:c.capital, latitude: c.latitude, longitude: c.longitude, country_id: c.country_id})
-CREATE (c)-[:HAS_CAPITAL]->(newCity)
-CREATE (newCity)-[:BELONGS_TO_COUNTRY]->(c);
+WITH c, maxId
+ORDER BY c.capital
+WITH collect(c) AS countries, maxId
+UNWIND range(0, size(countries) - 1) AS idx
+WITH countries[idx] AS country, maxId + idx + 1 AS newId
+CREATE (newCity:City {id: newId, name: country.capital, latitude: country.latitude, longitude: country.longitude, country_id: country.id})
+CREATE (country)-[:HAS_CAPITAL]->(newCity)
+CREATE (newCity)-[:BELONGS_TO_COUNTRY]->(country);
 
 
 // Script 3) create HAS_CAPITAL edge for the cities already present in the database, excluding repetitions of multiple cities with same name and same country: For each country, the edge is created only for the first appearance of a city // that has name = capital
@@ -107,3 +111,16 @@ MATCH (country:Country)
 REMOVE country.capital;
 MATCH (city:City)
 REMOVE city.country_id;
+
+
+// Script 5) Add Uniqueness constraints
+CREATE CONSTRAINT cities_id_constraint FOR (city:City)
+REQUIRE city.id IS NODE KEY;
+CREATE CONSTRAINT countries_id_constraint FOR (country:Country)
+REQUIRE country.id IS NODE KEY;
+CREATE CONSTRAINT continents_id_constraint FOR (continent:Continent)
+REQUIRE continent.id IS NODE KEY;
+CREATE CONSTRAINT states_id_constraint FOR (state:State)
+REQUIRE state.id IS NODE KEY;
+CREATE CONSTRAINT subcontinents_id_constraint FOR (subcontinent:Subcontinent)
+REQUIRE subcontinent.id IS UNIQUE;
