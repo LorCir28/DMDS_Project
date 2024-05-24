@@ -47,6 +47,7 @@ In PostgreSQL:
 ### Chosen Database Management system: 
 Neo4j: graph database in which data are stored as nodes and relationships between these nodes, rather than as traditional relational tables. This allows for executing very complex and deep queries more efficiently compared to traditional relational databases when dealing with highly connected data. The query language used by Neo4j is Cypher.
 
+### Why Neo4j:
 We decided to implement our work on Neo4j because, observing of the E-R model that we developed, it can be stated that all the entries are related each other only with *binary* relationships, easily modelable in neo4j, each one connecting two nodes, representing tuples in the database.
 
 Unlike SQL databases like the one presented in Homework 1 and 2, where joins can become as seen performance bottlenecks, Neo4j uses direct pointers to navigate between nodes, ensuring consistent query performance especially for deep and complex queries. This is particularly advantageous when querying for related data across multiple levels (e.g., find all cities in a continent).
