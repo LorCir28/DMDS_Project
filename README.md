@@ -17,9 +17,12 @@ There are 155.935 entries in total, broken down as follows in six tables:
 The following E-R model reports all the entities, relationships and constraints that structure the database
 ![Conceptual Schema](hw_1_2/Images/ER_Model.jpeg).
 
+## Rekationships between tables
+![Relationships schema](hw_1_2/Images/relational_db.png).
+
 ## Homework 1 and 2:
 
-### Chosen Database Management system: 
+### Chosen Database Management System: 
 PostgreSQL.
 
 ### Modeling: 
@@ -44,16 +47,19 @@ In PostgreSQL:
 
 ## Homework 3:
 
-### Chosen Database Management system: 
+### Chosen Database Management System: 
 Neo4j: graph database in which data are stored as nodes and relationships between these nodes, rather than as traditional relational tables. This allows for executing very complex and deep queries more efficiently compared to traditional relational databases when dealing with highly connected data. The query language used by Neo4j is Cypher.
 
-We decided to implement our work on Neo4j because, observing of the E-R model that we developed, it can be stated that all the entries are related each other only with *binary* relationships, easily modelable in neo4j, each one connecting two nodes, representing tuples in the database.
+We decided to implement our work on Neo4j because, as shown in the E-R model, tables are related through *binary* relationships, easily modelable in neo4j, each one connecting two nodes, representing tuples in the database.
 
-Unlike SQL databases like the one presented in Homework 1 and 2, where joins can become as seen performance bottlenecks, Neo4j uses direct pointers to navigate between nodes, ensuring consistent query performance especially for deep and complex queries. This is particularly advantageous when querying for related data across multiple levels (e.g., find all cities in a continent).
+Unlike relational databases, where joins can become as seen performance bottlenecks, Neo4j uses graph pattern matching to navigate between nodes and edges, ensuring consistent query performance especially for deep and complex queries. This is particularly advantageous when querying for related data across multiple levels (e.g., find all cities in a continent).
 
-### Modeling:
-From the observation of the E-R model in which all the entities, relationships and constraints are individuated as follows. 
-Thanks to the usage of a graph database, we managed to implement the addictional edge __'HAS_CAPITAL'__ that we couldn't model in previous homework. This edge links each sample of *Country* nodes to the relative *City* node that expresses the capital pf that country
+### Modeling: 
+Thanks to the usage of a graph database, we managed to implement the addictional edge __'HAS_CAPITAL'__ that we couldn't model with the relational db approach. This edge links each sample of *Country* nodes to the relative *City* node that expresses the capital of that country.
+The workflow is:
+- find the capitals that are not represented as a *City* node
+- create the *City* node for each of those capitals
+- create the edges __'HAS_CAPITAL'__ and __'BELONGS TO COUNTRY'__ to connect them to their corresponding country
 ![NoSQL Model](hw_3/images/NoSQL_Model.png)
 
 ### Get Started
