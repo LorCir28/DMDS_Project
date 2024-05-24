@@ -54,7 +54,7 @@ Unlike SQL databases like the one presented in Homework 1 and 2, where joins can
 ### Modeling:
 From the observation of the E-R model in which all the entities, relationships and constraints are individuated as follows. 
 Thanks to the usage of a graph database, we managed to implement the addictional edge __'HAS_CAPITAL'__ that we couldn't model in previous homework. This edge links each sample of *Country* nodes to the relative *City* node that expresses the capital pf that country
-![NoSQL Model](hw_3/Images/NoSQL_Model.jpeg)
+![NoSQL Model](hw_3/Images/NoSQL_Model.png)
 
 ### Get Started
 * run the Cypher code written in ```/hw_3/scripts/import_db.txt``` to create all nodes, edges, constraints
