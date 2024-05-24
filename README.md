@@ -17,7 +17,7 @@ There are 155.935 entries in total, broken down as follows in six tables:
 The following E-R model reports all the entities, relationships and constraints that structure the database
 ![Conceptual Schema](hw_1_2/Images/ER_Model.jpeg).
 
-## Rekationships between tables
+## Relationships between tables
 ![Relationships schema](hw_1_2/Images/relational_db.png).
 
 ## Homework 1 and 2:
@@ -50,6 +50,9 @@ In PostgreSQL:
 ### Chosen Database Management System: 
 Neo4j: graph database in which data are stored as nodes and relationships between these nodes, rather than as traditional relational tables. This allows for executing very complex and deep queries more efficiently compared to traditional relational databases when dealing with highly connected data. The query language used by Neo4j is Cypher.
 
+
+=======
+### Why Neo4j:
 We decided to implement our work on Neo4j because, as shown in the E-R model, tables are related through *binary* relationships, easily modelable in neo4j, each one connecting two nodes, representing tuples in the database.
 
 Unlike relational databases, where joins can become as seen performance bottlenecks, Neo4j uses graph pattern matching to navigate between nodes and edges, ensuring consistent query performance especially for deep and complex queries. This is particularly advantageous when querying for related data across multiple levels (e.g., find all cities in a continent).
@@ -60,6 +63,8 @@ The workflow is:
 - find the capitals that are not represented as a *City* node
 - create the *City* node for each of those capitals
 - create the edges __'HAS_CAPITAL'__ and __'BELONGS TO COUNTRY'__ to connect them to their corresponding country
+
+## Graph DB schema
 ![NoSQL Model](hw_3/images/NoSQL_Model.png)
 
 ### Get Started
