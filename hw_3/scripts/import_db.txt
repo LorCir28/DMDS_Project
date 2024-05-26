@@ -124,3 +124,20 @@ CREATE CONSTRAINT states_id_constraint FOR (state:State)
 REQUIRE state.id IS NODE KEY;
 CREATE CONSTRAINT subcontinents_id_constraint FOR (subcontinent:Subcontinent)
 REQUIRE subcontinent.id IS UNIQUE;
+
+
+
+
+// ONLY IF YOU WANT TO CREATE THE ADDITIONAL EDGES (from cities to continents and subcontinents, from states to continents and subcontinents)
+
+// MATCH (city:City)-[:BELONGS_TO_COUNTRY]->(country:Country)-[:BELONGS_TO_CONTINENT]->(cont:Continent)
+// CREATE (city)-[:BELONGS_TO_CONTINENT]->(cont);
+
+// MATCH (city:City)-[:BELONGS_TO_COUNTRY]->(country:Country)-[:BELONGS_TO_SUBCONTINENT]->(subcont:Subcontinent)
+// CREATE (city)-[:BELONGS_TO_SUBCONTINENT]->(subcont);
+
+// MATCH (state:State)-[:BELONGS_TO_COUNTRY]->(country:Country)-[:BELONGS_TO_CONTINENT]->(cont:Continent)
+// CREATE (state)-[:BELONGS_TO_CONTINENT]->(cont);
+
+// MATCH (state:State)-[:BELONGS_TO_COUNTRY]->(country:Country)-[:BELONGS_TO_SUBCONTINENT]->(subcont:Subcontinent)
+// CREATE (state)-[:BELONGS_TO_SUBCONTINENT]->(subcont);

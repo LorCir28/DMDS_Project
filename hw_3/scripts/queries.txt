@@ -26,8 +26,6 @@ RETURN city.name, toFloat(city.latitude)
 ORDER BY toFloat(city.latitude) desc
 LIMIT 1
 
-PROBLEMS: this is different from sql: the result is not 'Dikson' but 'Longyearbyen' which is a new added city (from capital) that has the maximum latitude
-
 ---------------------------------------------------------------------------------------------------------------
 
 // QUERY 4
@@ -58,8 +56,6 @@ MATCH (city:City)-[:BELONGS_TO_COUNTRY]->(country:Country)-[:BELONGS_TO_CONTINEN
 WHERE NOT EXISTS ((city)<-[:HAS_CAPITAL]-(:Country))
 RETURN city.name, country.phone_code, cont.name, subcont.name
 ORDER BY city.name
-
-PROBLEMS: this returns more queries than sql, I cannot understand why
 
 ---------------------------------------------------------------------------------------------------------------
 
