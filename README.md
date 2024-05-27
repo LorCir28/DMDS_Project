@@ -64,7 +64,7 @@ The workflow is:
 - create the *City* node for each of those capitals
 - create the edges __'HAS_CAPITAL'__ and __'BELONGS TO COUNTRY'__ to connect them to their corresponding country
 
-## Graph DB schema
+### Graph DB schema
 ![NoSQL Model](hw_3/images/NoSQL_Model.png)
 
 ### Get Started
