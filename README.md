@@ -51,7 +51,7 @@ In PostgreSQL:
 Neo4j: graph database in which data are stored as nodes and relationships between these nodes, rather than as traditional relational tables. This allows for executing very complex and deep queries more efficiently compared to traditional relational databases when dealing with highly connected data. The query language used by Neo4j is Cypher.
 
 
-=======
+
 ### Why Neo4j:
 We decided to implement our work on Neo4j because, as shown in the E-R model, tables are related through *binary* relationships, easily modelable in neo4j, each one connecting two nodes, representing tuples in the database.
 
