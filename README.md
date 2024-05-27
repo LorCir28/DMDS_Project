@@ -15,10 +15,10 @@ There are 155.935 entries in total, broken down as follows in six tables:
 
 ## Entity Relationship model
 The following E-R model reports all the entities, relationships and constraints that structure the database
-![Conceptual Schema](hw_1_2/Images/ER_Model.jpeg).
+![Conceptual Schema](hw_1_2/Images/ER_Model.jpeg)
 
 ## Relationships between tables
-![Relationships schema](hw_1_2/Images/relational_db.png).
+![Relationships schema](hw_1_2/Images/relational_db.png)
 
 ## Homework 1 and 2:
 
