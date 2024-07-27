@@ -1,3 +1,5 @@
+// WE USE INDEXES (THEIR CREATION IS IN THE CODE BELOW) TO SPEED UP THE IMPORT
+
 // script 1) import csv files with country_id for cities
 
 // Import continents from continents.csv
@@ -50,6 +52,7 @@ CREATE (sta:State {
 })
 CREATE (sta)-[:BELONGS_TO_COUNTRY]->(cou);
 
+// INDEXES !!!!!!!!
 // create indexes to speed up the import of cities.csv
 CREATE INDEX country_id_idx IF NOT EXISTS FOR (country:Country) ON (country.id);
 CREATE INDEX state_id_idx IF NOT EXISTS FOR (state:State) ON (state.id);
