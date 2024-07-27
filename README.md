@@ -1,7 +1,7 @@
 # DMDS exam project
 Professors: Prof. Rosati, Prof. Lembo.
 
-Project members: Felli Stefano (1896877), Cirillo Lorenzo (1895955).
+Project members: Felli Stefano, Cirillo Lorenzo.
 
 ## Chosen Database: Countries-States-Cities (https://www.kaggle.com/datasets/darshangada/countries-states-cities-database?select=csv)
 The database contains a collection of data providing detailed geographical information about cities, states, countries, continents, and sub continents, each one modeled as a table. 
