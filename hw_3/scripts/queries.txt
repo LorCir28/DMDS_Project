@@ -60,8 +60,9 @@ ORDER BY city.name
 ---------------------------------------------------------------------------------------------------------------
 
 // QUERY 7
-
 // for each european country that has at least one province, return the name of the country and the number of corresponding provinces
+// this shows neo4j power: 1 only match (not where)
+
 MATCH (state:State {type:'province'})-[:BELONGS_TO_COUNTRY]->(country:Country)-[:BELONGS_TO_CONTINENT]->(cont:Continent {name:'Europe'})
 RETURN country.name, COUNT(state)
 
@@ -99,6 +100,7 @@ RETURN cont, COUNT(city)
 ---------------------------------------------------------------------------------------------------------------
 
 // QUERY 10
+//for each italian region, show the name and the number of provinces that have the latitude greater than all the spanish cities
 
 MATCH (city:City)-[:BELONGS_TO_COUNTRY]->(country:Country {name: 'Spain'})
 WITH MAX(toFloat(city.latitude)) AS maxSpanishLatitude
